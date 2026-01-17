@@ -1,0 +1,14 @@
+{
+  "template": "react-app",
+  "name_snake": "friendforce_react",
+  "name_pretty": "Friendforce React",
+  "variables": {
+    "apps": "\"friendforce_api.friendforce\"",
+    "name_snake": "friendforce",
+    "parent_package_name": "friendforce_api",
+    "api_prefix": "api/friendforce",
+    "name_pretty": "Friendforce",
+    "github_user": "montaguegabe",
+    "marketing_description": "Built with Openbase"
+  }
+}
