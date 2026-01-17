@@ -11,7 +11,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import UserProfile from "@/components/UserProfile";
-import { Clipboard, Home, PieChart } from "lucide-react";
+import { Bell, Home, Settings, Users } from "lucide-react";
 import { useFullUser } from "openbase-react-shared";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -32,17 +32,22 @@ const ExampleDashboardLayout: React.FC<ExampleDashboardLayoutProps> = ({
     {
       path: "/dashboard",
       icon: Home,
-      title: "Dashboard 1",
+      title: "Dashboard",
     },
     {
-      path: "/dashboard/two",
-      icon: PieChart,
-      title: "Dashboard 2",
+      path: "/dashboard/contacts",
+      icon: Users,
+      title: "Contacts",
     },
     {
-      path: "/dashboard/three",
-      icon: Clipboard,
-      title: "Dashboard 3",
+      path: "/dashboard/reminders",
+      icon: Bell,
+      title: "Reminders",
+    },
+    {
+      path: "/dashboard/settings",
+      icon: Settings,
+      title: "Settings",
     },
   ];
 
@@ -52,7 +57,7 @@ const ExampleDashboardLayout: React.FC<ExampleDashboardLayoutProps> = ({
         <Sidebar>
           <SidebarHeader className="p-4 border-b">
             <div className="flex items-center justify-start py-2">
-              <h1 className="text-xl font-bold text-gray-900">My App</h1>
+              <h1 className="text-xl font-bold text-gray-900">FriendsForce</h1>
             </div>
           </SidebarHeader>
 
