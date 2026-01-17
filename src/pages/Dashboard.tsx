@@ -1,12 +1,28 @@
+import { useState } from "react";
 import DashboardLayout from "@/components/layouts/ExampleLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   useDashboardStats,
   useRecentContacts,
   useStaleContacts,
 } from "@/hooks/use-dashboard";
-import { useLogInteraction } from "@/hooks/use-contacts";
+import { useContacts, useLogInteraction } from "@/hooks/use-contacts";
 import { useUpcomingReminders } from "@/hooks/use-reminders";
 import type { Contact, Reminder } from "@/types/friendforce";
 import { formatDistanceToNow } from "date-fns";
@@ -20,6 +36,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const typeColors: Record<string, string> = {
   friend: "bg-primary/10 text-primary",
@@ -28,11 +45,26 @@ const typeColors: Record<string, string> = {
 };
 
 const Dashboard = () => {
+  const [isLogMeetupOpen, setIsLogMeetupOpen] = useState(false);
+  const [selectedContactId, setSelectedContactId] = useState<string>("");
+
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: upcomingReminders } = useUpcomingReminders();
   const { data: staleContacts } = useStaleContacts();
   const { data: recentContacts } = useRecentContacts();
+  const { data: allContacts } = useContacts();
   const logInteraction = useLogInteraction();
+
+  const handleLogMeetup = async () => {
+    if (!selectedContactId) {
+      toast.error("Please select a contact");
+      return;
+    }
+    await logInteraction.mutateAsync(selectedContactId);
+    toast.success("Meetup logged successfully!");
+    setIsLogMeetupOpen(false);
+    setSelectedContactId("");
+  };
 
   const statItems = [
     {
@@ -84,10 +116,58 @@ const Dashboard = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" className="gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => setIsLogMeetupOpen(true)}
+            >
               <MessageSquare className="w-4 h-4" />
               Log Meetup
             </Button>
+            <Dialog open={isLogMeetupOpen} onOpenChange={setIsLogMeetupOpen}>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Log Meetup</DialogTitle>
+                  <DialogDescription>
+                    Record an interaction with a contact.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="contact">Contact</Label>
+                    <Select
+                      value={selectedContactId}
+                      onValueChange={setSelectedContactId}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a contact" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {allContacts?.map((contact: Contact) => (
+                          <SelectItem key={contact.id} value={contact.id}>
+                            {contact.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsLogMeetupOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleLogMeetup}
+                    disabled={logInteraction.isPending}
+                  >
+                    {logInteraction.isPending ? "Logging..." : "Log Meetup"}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Link to="/dashboard/contacts">
               <Button className="gap-2">
                 <UserPlus className="w-4 h-4" />

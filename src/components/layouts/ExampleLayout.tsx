@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import UserProfile from "@/components/UserProfile";
 import { Bell, Home, Settings, Users } from "lucide-react";
@@ -54,7 +55,7 @@ const ExampleDashboardLayout: React.FC<ExampleDashboardLayoutProps> = ({
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-gray-50">
-        <Sidebar>
+        <Sidebar collapsible="none" className="bg-white border-r">
           <SidebarHeader className="p-4 border-b">
             <div className="flex items-center justify-start py-2">
               <h1 className="text-xl font-bold text-gray-900">FriendsForce</h1>
@@ -87,11 +88,14 @@ const ExampleDashboardLayout: React.FC<ExampleDashboardLayoutProps> = ({
         <div className="flex-1 overflow-auto">
           <header className="bg-white shadow-sm border-b h-16 flex items-center px-6 sticky top-0 z-10">
             <div className="flex-1 flex justify-between items-center">
-              <h2 className="text-xl text-gray-900 font-sans">
-                {isLoading
-                  ? "Loading..."
-                  : `Welcome back, ${user?.first_name || "User"}`}
-              </h2>
+              <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <h2 className="text-xl text-gray-900 font-sans">
+                  {isLoading
+                    ? "Loading..."
+                    : `Welcome back, ${user?.first_name || "User"}`}
+                </h2>
+              </div>
               <div className="flex items-center space-x-1">
                 <UserProfile />
               </div>
