@@ -12,7 +12,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import UserProfile from "@/components/UserProfile";
-import { Bell, Home, Settings, Users } from "lucide-react";
+import { Bell, Home, Mail, Settings, Users } from "lucide-react";
 import { useFullUser } from "openbase-react-shared";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,6 +44,11 @@ const ExampleDashboardLayout: React.FC<ExampleDashboardLayoutProps> = ({
       path: "/dashboard/reminders",
       icon: Bell,
       title: "Reminders",
+    },
+    {
+      path: "/dashboard/blasts",
+      icon: Mail,
+      title: "Blasts",
     },
     {
       path: "/dashboard/settings",

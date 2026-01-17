@@ -8,6 +8,9 @@
 
 There are several ways of editing your application.
 
+Update
+
+
 **Use Openbase**
 
 Simply visit the [Openbase Project](https://openbase.cloud/projects/{{project_id}}) and start prompting.

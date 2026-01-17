@@ -10,6 +10,7 @@ import {
   Routes,
 } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import Blasts from "./pages/Blasts";
 import Contact from "./pages/Contact";
 import Contacts from "./pages/Contacts";
 import Dashboard from "./pages/Dashboard";
@@ -37,6 +38,7 @@ function AppRoutes() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/contacts" element={<Contacts />} />
       <Route path="/dashboard/reminders" element={<Reminders />} />
+      <Route path="/dashboard/blasts" element={<Blasts />} />
       <Route path="/dashboard/settings" element={<Settings />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
